@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify
+import os
 
 app = Flask(__name__)
 
@@ -22,5 +23,8 @@ def check():
         "action": "Escalate" if violations else "Safe"
     })
 
+# FIXED: Bind to Render's PORT & HOST
 if __name__ == '__main__':
-    app.run(debug=True)
+    port = int(os.environ.get('PORT', 5000))
+    host = '0.0.0.0'  # Listen on all interfaces
+    app.run(host=host, port=port, debug=False)  # No debug in production
